@@ -1,0 +1,28 @@
+EPROCESS block:
+===============
+Each process in Windows is represented internally by a binary structure known as "executive process block" (EPROCESS block). This structure contains pointers to other salient substructures like the "kernel process block" (KPROCESS block) and the "process environment block" (PEB). The EPROCESS block can only be accessed by the os.
+So, every process has an EPROCESS block
+
+KPROCESS block:
+===============
+Contains the base physical address of the page directory assigned to the process (the value to be placed in CR3) and other info for runtime scheduling. The KPROCESS block can only be accessed by the OS.
+
+PEB
+===
+Contains info about the memory img of the process: Base linear address, DLLs that it loads, the img version, etc.
+
+IRP
+===
+I/O Request Packet. Chunks of data created by the I/O Manager on behalf of some user-mode apps that want to speak with the device via a Win32 API call. All in all, IRP is a blob of memory used to ferry data to and from a KMD (Kernel Mode Driver).
+
+It also is a structure written in C that has a bunch of fields. The IRP structure's blueprints are in wdm.h header file.
+
+major function codes (requests) of IRPs are:
+IRP_MJ_READ				//Read requests read data comming from the device to the KMD in a buffer via the IRP
+IRP_MJ_WRITE			//Write requests pass data to the KMD from tie io mgr that is to be written to the device
+IRP_MJ_DEVICE_CONTROL	//Communicate with the driver for some arbitr purpose (not r or w)
+our rootkit KMD isn't associated with a particular piece of hardware, therfore we r interested in device control requests 
+
+KMD
+===
+Can also be viewed as a set of routines whose sole purpose is to accept and process IRPs. Rootkit KMDs we will create are KMDs primarily to access the internal OS code and data structures. The IRPs that they receive will serve to pass commands and data between the user-mode and kernel-mode components of our rootkit

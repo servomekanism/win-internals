@@ -1,0 +1,83 @@
+DEBUGGING
+=========
+
+Symbols
+~~~~~~~
+Symbols For WinDBG: SRV*your local folder for symbols*http://msdl.microsoft.com/download/symbols
+
+_NT_SYMBOL_PATH environment variable: _NT_SYMBOL_PATH = symsrv*symsrv.dll*C:\Symbols*http://msdl.microsoft.com/download/symbols
+
+symchk.exe utility to dl symbols: symchk /r c:\windows\system32 /s SRV*c:\symbols\*http://msdl.microsoft.com/download/symbols
+
+Commands
+~~~~~~~~
+cdb.exe filename.exe -> executes the fileneme process to debug it
+cdb.exe -p ProcessID -> attaches the debugger to the specific PID
+cdb.exe -pn filename -> attaches the debugger to the specified process name
+
+the above with the -pv flag is a noninvasive examination of the process.
+
+debugging commands
+~~~~~~~~~~~~~~~~~~
+bl  					lists the existing preakpoints
+bc breakPointID  		deletes the existing bp id
+bp functionName  		sets a bp at the first byte of the specified routine
+bp 	 					set a bp at the location currently indicated by the IP register
+
+g (go) 					Execute until the next bp
+t (trace) 	 			execute the next instruction (step into a function call)
+p (step) 	 			Execute the next instruction (step over a function call)
+gu (go up)  			execute until the current function returns.
+q 	 					quit and terminate the process being debugged (debugee)
+
+x 	 					Examine symbols
+x moduleName!Symbol		Report the address of the given symbol (if it exists)
+x *!					List all fo the modules currently loaded
+x moduleName!*			List all of the symbols and their addresses in the specified module
+x moduleName!arg*		List all of the symbols that match the arg* wildcard filter
+x moduleName!*arg*		List all of the ... same as above but with the obvious
+
+lm 						Lists loaded modules (lm == x*!)
+!lmi moduleName			Information about a particular module (which should be listed via lm)
+lm v					Displays the lm and !lmi information combined
+
+dt symbolFile			Displays type, eg dt _LIST_ENTRY
+u						disassemble eight instructions starting at the current address
+u Address				disassemble eight instructions ... at the specified
+u start end				disassemble memory residing in the address space specified
+uf FunctionName			Disassemble the specified routine
+
+dd 						Dump memory (displayes 32 DWORD values)
+dd 772c8192				Dump memory starting at this address
+dd start end			Dump memory from to address
+dd address L5			Dump the first 5 DWORDS at this address
+
+.formats				converts the hex to binary or decimal (remember little endian at IA-32)
+
+!process Process flags	Displays metadata of a process. Process arg = pID or a base address of its EPROCESS block, flags is the depth of info displayed.
+!process 0 0			The 2 arguments are either the p ID or the base address and the verbosity of the EPROCESS structure. 
+.process EPROCESS addr	Sets the current process context with its respective EPROCESS block address
+!peb					Dumps the PEB for the EPROCESS addr block that the .process attached to
+
+r						displays system registers
+0rM 80					displays the registers of the processor 0 with a mask (M) as 8bit.
+0rM	100					displays the descriptor registers
+
+dt nt!_EPROCESS			The fields that EPROCESS block stores.
+dt nt!_KPROCESS			The fields that KPROCESS block stores.
+dt nt!_PEB				The fields that PEB stores
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+eg so far: cdb.exe notepad.exe
+x *!
+x notepad!
+
+hits
+~~~~
+devmgmt.msc
+
+STARTING DEBUGGING SESSION
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+windbg.exe -b -k com:pipe,port=\\.\pipe\com_2,resets=0
+OR
+kd -k com:pipe,port=\\.\pipe\com_2,resets=0
