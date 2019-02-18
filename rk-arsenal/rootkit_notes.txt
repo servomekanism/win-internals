@@ -290,7 +290,7 @@ We also notice that each Nt*() has a matching Zw*() function with the same name.
 LIFE CYCLE OF A SYSTEM CALL!
 --------------------------
 GO PAGE 116!! it owns!!
-figre 3-7!
+figure 3-7!
 
 The Boot Process!
 =-=-=-=-=-=-=-=-=

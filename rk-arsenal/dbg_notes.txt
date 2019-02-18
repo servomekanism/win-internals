@@ -19,53 +19,61 @@ the above with the -pv flag is a noninvasive examination of the process.
 
 debugging commands
 ~~~~~~~~~~~~~~~~~~
-bl  					lists the existing preakpoints
-bc breakPointID  		deletes the existing bp id
-bp functionName  		sets a bp at the first byte of the specified routine
-bp 	 					set a bp at the location currently indicated by the IP register
+.sympath                lists the currently set symbol paths
+.sympath+ PATH          adds PATH to the currently set symbols
+.reload                 reloads the symbol paths
+.srcpath PATH           sets the source code path of the application
 
-g (go) 					Execute until the next bp
-t (trace) 	 			execute the next instruction (step into a function call)
-p (step) 	 			Execute the next instruction (step over a function call)
-gu (go up)  			execute until the current function returns.
-q 	 					quit and terminate the process being debugged (debugee)
+.asm no_code_bytes      removes the code bytes from the output
 
-x 	 					Examine symbols
-x moduleName!Symbol		Report the address of the given symbol (if it exists)
-x *!					List all fo the modules currently loaded
-x moduleName!*			List all of the symbols and their addresses in the specified module
-x moduleName!arg*		List all of the symbols that match the arg* wildcard filter
-x moduleName!*arg*		List all of the ... same as above but with the obvious
+bl                      lists the existing preakpoints
+bc breakPointID         deletes the existing bp id
+bp functionName         sets a bp at the first byte of the specified routine
+bp                      set a bp at the location currently indicated by the IP register
 
-lm 						Lists loaded modules (lm == x*!)
-!lmi moduleName			Information about a particular module (which should be listed via lm)
-lm v					Displays the lm and !lmi information combined
+g (go)                  Execute until the next bp
+t (trace)               execute the next instruction (step into a function call)
+p (step)                Execute the next instruction (step over a function call)
+gu (go up)              execute until the current function returns.
+q                       quit and terminate the process being debugged (debugee)
 
-dt symbolFile			Displays type, eg dt _LIST_ENTRY
-u						disassemble eight instructions starting at the current address
-u Address				disassemble eight instructions ... at the specified
-u start end				disassemble memory residing in the address space specified
-uf FunctionName			Disassemble the specified routine
+x                       Examine symbols
+x moduleName!Symbol     Report the address of the given symbol (if it exists)
+x *!                    List all fo the modules currently loaded
+x moduleName!*          List all of the symbols and their addresses in the specified module
+x moduleName!arg*       List all of the symbols that match the arg* wildcard filter
+x moduleName!*arg*      List all of the ... same as above but with the obvious
 
-dd 						Dump memory (displayes 32 DWORD values)
-dd 772c8192				Dump memory starting at this address
-dd start end			Dump memory from to address
-dd address L5			Dump the first 5 DWORDS at this address
+lm                      Lists loaded modules (lm == x*!)
+!lmi moduleName         Information about a particular module (which should be listed via lm)
+lm v                    Displays the lm and !lmi information combined
 
-.formats				converts the hex to binary or decimal (remember little endian at IA-32)
+dt symbolFile           Displays type, eg dt _LIST_ENTRY
+u                       disassemble eight instructions starting at the current address
+u Address               disassemble eight instructions ... at the specified
+u start end             disassemble memory residing in the address space specified
+uf FunctionName         Disassemble the specified routine
 
-!process Process flags	Displays metadata of a process. Process arg = pID or a base address of its EPROCESS block, flags is the depth of info displayed.
-!process 0 0			The 2 arguments are either the p ID or the base address and the verbosity of the EPROCESS structure. 
-.process EPROCESS addr	Sets the current process context with its respective EPROCESS block address
-!peb					Dumps the PEB for the EPROCESS addr block that the .process attached to
+dd                      Dump memory (displayes 32 DWORD values)
+dd 772c8192             Dump memory starting at this address
+dd start end            Dump memory from to address
+dd address L5           Dump the first 5 DWORDS at this address
+dds @esp                Essentially dumps the current stack
 
-r						displays system registers
-0rM 80					displays the registers of the processor 0 with a mask (M) as 8bit.
-0rM	100					displays the descriptor registers
+.formats                converts the hex to binary or decimal (remember little endian at IA-32)
 
-dt nt!_EPROCESS			The fields that EPROCESS block stores.
-dt nt!_KPROCESS			The fields that KPROCESS block stores.
-dt nt!_PEB				The fields that PEB stores
+!process Process flags  Displays metadata of a process. Process arg = pID or a base address of its EPROCESS block, flags is the depth of info displayed.
+!process 0 0            The 2 arguments are either the p ID or the base address and the verbosity of the EPROCESS structure. 
+.process EPROCESS addr  Sets the current process context with its respective EPROCESS block address
+!peb                    Dumps the PEB for the EPROCESS addr block that the .process attached to
+
+r                       displays system registers
+0rM 80                  displays the registers of the processor 0 with a mask (M) as 8bit.
+0rM 100                 displays the descriptor registers
+
+dt nt!_EPROCESS         The fields that EPROCESS block stores.
+dt nt!_KPROCESS         The fields that KPROCESS block stores.
+dt nt!_PEB              The fields that PEB stores
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 eg so far: cdb.exe notepad.exe
