@@ -1,10 +1,10 @@
 ### PE anatomy
 0. RVA: Relative Virtual Address is an offset to some item/table within the
 file. When the windows loader maps the file into memory, it maps it to some base
-address. The Base Address corresponds to the RVA 0. Let's say that the loader
-maps the PE at the base address 10000. If a table within the memory map is at
-Virtual Address (i.e. mapped at that address) at 10464, then the RVA of that
-table is 464.
+address. The `Base Address` corresponds to the `RVA` 0. Let's say that the loader
+maps the PE at the base address `10000`. If a table within the memory map is at
+`Virtual Address` (i.e. mapped at that address) at `10464`, then the `RVA` of that
+table is `464`.
 
 `Base Address + RVA = Virtual Address (in runtime)`
 
