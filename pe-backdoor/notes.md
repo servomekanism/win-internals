@@ -100,7 +100,45 @@ Following these two headers and before the actual data within the sections,
 there is the `Section Table`.
 
 5. `Section Table`: essentially is a "phone book" containing information about
-each section in the image. The sections are sorted by their `RVA`s.
+each section in the image. The sections are sorted by their `RVA`s. The
+information includes its type, its size and its location elsewhere in the file.
+In essence, each `Section Table` entry stores the address of where the file's
+raw data has been mapped into memory; memory address ranges whithin the process
+address space.
+    * the `Section Table` programmatically is actually an array of
+    `IMAGE_SECTION_HEADER` structures. The number of elements in this array is
+    given in the `PE` header itself, in the:
+    `IMAGE_NT_HEADER.FileHeader.NumberOfSections` field
+    * this `NumberOfSections` shows that the `Section Table` contains one
+    `IMAGE_SECTION_HEADER` for every section.
+    * `IMAGE_SECTION_HEADER`: The struct declaration is the following:
+    
+    ```
+    typedef struct _IMAGE_SECTION_HEADER {
+        BYTE Name[IMAGE_SIZEOF_SHORT_NAME];
+        union {
+            DWORD PhysicalAddress;
+            DWORD VirtualSize;
+        } Misc;
+        DWORD VirtualAddress;
+        DWORD SizeOfRawData;
+        DWORD PointerToRawData;
+        DWORD PointerToRelocations;
+        DWORD PointerToLinenumbers;
+        WORD  NumberOfRelocations;
+        WORD  NumberOfLinenumbers;
+        DWORD Characteristics;
+        } IMAGE_SECTION_HEADER, *PIMAGE_SECTION_HEADER;
+    ``` 
+    
+    `Name`: 8-byte null padded utf-8 string contains the section name. e.g.:
+    `.text`, `.reloc`, etc.
+    
+    `Misc.PhysicalAddress`: The file address.
+
+    `Misc.VirtualSize`: The size of the section when loaded into memory.
+
+
 
 [0]: https://upload.wikimedia.org/wikipedia/commons/1/1b/Portable_Executable_32_bit_Structure_in_SVG_fixed.svg
 [1]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_nt_headers (IMAGE_NT_HEADERS)
