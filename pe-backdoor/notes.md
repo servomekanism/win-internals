@@ -1,4 +1,7 @@
 ### PE anatomy
+The most descriptive picture was [this one][0]. Don't get lost in the details,
+follow this post.
+
 0. `RVA`: Relative Virtual Address is an offset to some item/table within the
 file. When the windows loader maps the file into memory, it maps it to some base
 address. The `Base Address` corresponds to the `RVA` 0. Let's say that the loader
@@ -86,8 +89,9 @@ of interest to us here:
     and size of the imported function table, etc. For more information check the
     `IMAGE_DIRECTORY_ENTRY_XXX` `#define`s in WINNT.H. Note the
     IMAGE_DIRECTORY_DEBUG element that can be useful. `.debug` section is the only
-    section that is excluded from the hash signature generation of the file!. [5]
+    section that is excluded from the hash signature generation of the file[!] [5]
 
+[0]: https://upload.wikimedia.org/wikipedia/commons/1/1b/Portable_Executable_32_bit_Structure_in_SVG_fixed.svg
 [1]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_nt_headers (IMAGE_NT_HEADERS)
 [IMAGE_FILE_HEADER]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_file_header
 [IMAGE_OPTIONAL_HEADER]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_optional_header
