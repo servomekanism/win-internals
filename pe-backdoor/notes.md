@@ -1,5 +1,5 @@
 ### PE anatomy
-0. RVA: Relative Virtual Address is an offset to some item/table within the
+0. `RVA`: Relative Virtual Address is an offset to some item/table within the
 file. When the windows loader maps the file into memory, it maps it to some base
 address. The `Base Address` corresponds to the `RVA` 0. Let's say that the loader
 maps the PE at the base address `10000`. If a table within the memory map is at
@@ -10,14 +10,14 @@ table is `464`.
 
 Remember that the Windows Loader maps the file continouusly in memory.
 
-1. MS-DOS header: MS-DOS stub that prints the usual message. The first byte that
+1. `MS-DOS header`: MS-DOS stub that prints the usual message. The first byte that
 gets mapped when the PE file is mapped in memory is the first byte of the MS-DOS
 header. The MS-DOS header contains the exact offset of the PE header. This is
 how we locate the PE header, as an offset from the MS-DOS header.
 
-2. PE header: contains information such as location and sizes of the code and
+2. `PE header`: contains information such as location and sizes of the code and
 data areas, matching Operating System version, initial stack size and more.
-The PE [header structure prototype][1] is this:
+The PE `[header structure prototype]`[1] is this:
 ```
 typedef struct _IMAGE_NT_HEADERS {
   DWORD                   Signature;
