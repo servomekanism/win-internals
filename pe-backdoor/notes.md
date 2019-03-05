@@ -91,6 +91,17 @@ of interest to us here:
     IMAGE_DIRECTORY_DEBUG element that can be useful. `.debug` section is the only
     section that is excluded from the hash signature generation of the file[!] [5]
 
+#### Recap
+We have the `MS-DOS` header, the `PE` header that is a structure and contains the 
+`Signature` and two structures: `IMAGE_FILE_HEADER` and
+the`IMAGE_OPTIONAL_HEADER`.
+
+Following these two headers and before the actual data within the sections,
+there is the `Section Table`.
+
+5. `Section Table`: essentially is a "phone book" containing information about
+each section in the image. The sections are sorted by their `RVA`s.
+
 [0]: https://upload.wikimedia.org/wikipedia/commons/1/1b/Portable_Executable_32_bit_Structure_in_SVG_fixed.svg
 [1]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_nt_headers (IMAGE_NT_HEADERS)
 [IMAGE_FILE_HEADER]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_file_header
