@@ -21,7 +21,8 @@ to the `image base`:
 `pNtHeader = pImageBase + pDosHeader->e_lfanew`
 
 To get a pointer to the `image base` when loaded in memory, we need to map the
-file with the [`CreateFileMapping`] and `MapViewOfFile`
+file with the [CreateFileMapping][2] and [MapViewOfFile][3]. For 64-bit we need
+to cast this carefully according to [MSDN][4].
 
 2. `PE header`: contains information such as location and sizes of the code and
 data areas, matching Operating System version, initial stack size and more.
@@ -53,4 +54,6 @@ So, if you want to verify that a file is indeed a PE file, you can do:
 [1]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_nt_headers (IMAGE_NT_HEADERS)
 [IMAGE_FILE_HEADER]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_file_header
 [IMAGE_OPTIONAL_HEADER]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_optional_header
-[`CreateFileMappting`]: https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createfilemappinga
+[2]: https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createfilemappinga
+[3]: https://docs.microsoft.com/en-us/windows/desktop/api/memoryapi/nf-memoryapi-mapviewoffile
+[4]: https://docs.microsoft.com/en-us/windows/desktop/winprog64/rules-for-using-pointers
