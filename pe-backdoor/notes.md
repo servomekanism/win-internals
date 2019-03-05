@@ -49,6 +49,28 @@ So, if you want to verify that a file is indeed a PE file, you can do:
 
 `PE\0\0` is #define-d as `IMAGE_NT_SIGNATURE`
 
+3. `IMAGE_FILE_HEADER`: Check the link for more information. The important
+fields are the: `NumberOfSections`, `TimeDateStamp`, `SizeOfOptionalHeader`.
+
+4. `IMAGE_OPTIONAL_HEADER`: Check the link for more information. Many fields are
+of interest to us here:
+    * `SizeOfCode`: total size of all code sections. Normally usually one, the
+    .text section.
+    * `AddressOfEntryPoint`: RVA, the address of where the loader will begin
+    executing. In normal exe/pe files should point in the .text section.
+    * `BaseOfCode`: RVA where the file's code sections begin. Usually `0x1000`.
+    * `BaseOfData`: self-explanatory RVA. Typically last in memory.
+    * `ImageBase`: The assumed memory location from the linker that the
+    executable will be loaded in memory. Usually `0x40000`. If you use
+    `dumpbin.exe /headers filename.exe` and you see the flag `Dynamic base` at
+    the DLL characteristics under the `OPTIONAL HEADER VALUES`, this means that
+    the executable `ImageBase` is randomized at load.
+    * `SectionAlignment`: each section should start at a multiple of this value.
+    the default is `0x1000`.
+    * `SizeOfImage`: Total size of the of the portions of the image that the
+    loader has to take care of. It is the size of the region starting at the
+    image base up to the end of the last section. The end of the last section is
+    rounded up to the nearest `SectionAlignment` section.
 
 
 [1]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_nt_headers (IMAGE_NT_HEADERS)
