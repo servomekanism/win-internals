@@ -47,7 +47,7 @@ So, if you want to verify that a file is indeed a PE file, you can do:
 
 `pNtHeader->Signature == "PE\0\0"`
 
-`PE\0\0` is #define-d as `IMAGE_NT_SIGNATURE`
+`PE\0\0` is `#define`-d as `IMAGE_NT_SIGNATURE`
 
 3. `IMAGE_FILE_HEADER`: Check the link for more information. The important
 fields are the: `NumberOfSections`, `TimeDateStamp`, `SizeOfOptionalHeader`.
