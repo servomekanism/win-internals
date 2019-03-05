@@ -86,7 +86,7 @@ of interest to us here:
     and size of the imported function table, etc. For more information check the
     `IMAGE_DIRECTORY_ENTRY_XXX` `#define`s in WINNT.H. Note the
     IMAGE_DIRECTORY_DEBUG element that can be useful. `.debug` section is the only
-    section that is excluded from the hash signature generation of the file![5].
+    section that is excluded from the hash signature generation of the file!. [5]
 
 [1]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_nt_headers (IMAGE_NT_HEADERS)
 [IMAGE_FILE_HEADER]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_file_header
