@@ -68,8 +68,10 @@ of interest to us here:
     `dumpbin.exe /headers filename.exe` and you see the flag `Dynamic base` at
     the DLL characteristics under the `OPTIONAL HEADER VALUES`, this means that
     the executable `ImageBase` is randomized at load.
-    * `SectionAlignment`: each section should start at a multiple of this value.
-    the default is `0x1000`.
+    * `SectionAlignment`: each section should start at a multiple of this value,
+    when mapped into memory. The default is `0x1000`.
+    * `FileAlignment`: the raw data that comprises each section should be a
+    multiple of this value. Default is `0x200`.
     * `SizeOfImage`: Total size of the of the portions of the image that the
     loader has to take care of. It is the size of the region starting at the
     image base up to the end of the last section. The end of the last section is
@@ -111,7 +113,7 @@ address space.
     `IMAGE_NT_HEADER.FileHeader.NumberOfSections` field
     * this `NumberOfSections` shows that the `Section Table` contains one
     `IMAGE_SECTION_HEADER` for every section.
-    * `IMAGE_SECTION_HEADER`: The struct declaration is the following:
+    * `IMAGE_SECTION_HEADER` [6]: The struct declaration is the following:
     
     ```
     typedef struct _IMAGE_SECTION_HEADER {
@@ -136,8 +138,42 @@ address space.
     
     `Misc.PhysicalAddress`: The file address.
 
-    `Misc.VirtualSize`: The size of the section when loaded into memory.
+    `Misc.VirtualSize`: The size of the section when loaded into memory. This is
+    the size before its being rounded up to the `FileAlignment`. This part of
+    the union is active on an `exe` file.
 
+    `VirtualAddress`: RVA to where the loader should map the section. Remember,
+    in order to calculate the virtual memory address on runtime, add the `Base
+    Address` to this RVA.
+
+    `SizeOfRawData`: size of the section rounded up to the `FileAlignment` size.
+    For example, if the `VirtualSize` of a section is `0x351` bytes, the
+    `SizeOfRawData` returns `0x400` as size, if the `FileAlignment` is `0x200`.
+
+    `PointerToRawData`: RVA to the raw data emitted by the compiler. This is
+    especially important since we will map a PE file to backdoor it.
+
+    `Characteristics`: characteristics = flags. They indicate whether the
+    section is writeable, readable, executable, etc.
+
+6. Common Sections.
+    * `.text`: has the code generated.
+    * `.data`: has the initialized data, global and static vars initialized at
+    compile time. Also includes string literals
+    * `.bss`: has uninitialied static and global variables
+    * `.reloc`: holds the relocations table.
+    * `.tls`: stands for thread local storage. Whenever a process switches
+    threads, a new set of physical memory pages is mapped to the .tls section
+    address space. This permits per-thread global variables
+    * `.rdata`: a) holds the exe debug directory (or it might be in a section
+    named `.debug`) and b) DESCRIPTION string (prob irrelevant). 
+    * `.idata`: includes the import table that the PE uses and starts with an
+    array of `IMAGE_IMPORT_DESCRIPTOR`s. One `IMAGE_IMPORT_DESCRIPTOR` for each
+    .dll that the PE file links to.
+    * `.edata`: includes the export function table that the PE file exports.
+    Tables of function names, entry point addresses. Again this section uses a 
+    `IMAGE_EXPORT_DIRECTORY` structure.
+    
 
 
 [0]: https://upload.wikimedia.org/wikipedia/commons/1/1b/Portable_Executable_32_bit_Structure_in_SVG_fixed.svg
@@ -148,3 +184,4 @@ address space.
 [3]: https://docs.microsoft.com/en-us/windows/desktop/api/memoryapi/nf-memoryapi-mapviewoffile
 [4]: https://docs.microsoft.com/en-us/windows/desktop/winprog64/rules-for-using-pointers
 [5]: https://docs.microsoft.com/en-us/windows/desktop/debug/pe-format#the-debug-section
+[6]: https://docs.microsoft.com/en-us/windows/desktop/api/winnt/ns-winnt-_image_section_header
