@@ -185,3 +185,4 @@ address space.
 [4]: https://docs.microsoft.com/en-us/windows/desktop/winprog64/rules-for-using-pointers
 [5]: https://docs.microsoft.com/en-us/windows/desktop/debug/pe-format#the-debug-section
 [6]: https://docs.microsoft.com/en-us/windows/desktop/api/winnt/ns-winnt-_image_section_header
+[7]: https://docs.microsoft.com/en-us/previous-versions/ms809762(v=msdn.10)#the-section-table
