@@ -71,7 +71,22 @@ of interest to us here:
     loader has to take care of. It is the size of the region starting at the
     image base up to the end of the last section. The end of the last section is
     rounded up to the nearest `SectionAlignment` section.
-
+    * `SizeOfHeaders`: Size of the PE header and the section table.
+    * `SubSystem`: Type of the subsystem that runs the executable like, `Native`
+    (1), `Windows_GUI`(2), `Console` (3), `OS2_CUI` (5), `POSIX` (6).
+    * `DllCharacteristics`: Flags that indicate when the DLL's initialization
+    function will be called (DllMain).
+    * `NumberOfRvaAndSizes`: Number of entries in the DataDirectory array
+    (below) almost always 16.
+    * `IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES]`: An
+    array of `IMAGE_DATA_DIRECTORY` structures. Initial array elements contain RVA
+    and sizes of important section within the file. The first element of the
+    array is always the address and the size of the exported function table (if
+    the file exports any functions, like a dll). The second array is the address
+    and size of the imported function table, etc. For more information check the
+    `IMAGE_DIRECTORY_ENTRY_XXX` `#define`s in WINNT.H. Note the
+    IMAGE_DIRECTORY_DEBUG element that can be useful. `.debug` section is the only
+    section that is excluded from the hash signature generation of the file![5].
 
 [1]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_nt_headers (IMAGE_NT_HEADERS)
 [IMAGE_FILE_HEADER]: https://docs.microsoft.com/en-gb/windows/desktop/api/winnt/ns-winnt-_image_file_header
@@ -79,3 +94,4 @@ of interest to us here:
 [2]: https://docs.microsoft.com/en-us/windows/desktop/api/winbase/nf-winbase-createfilemappinga
 [3]: https://docs.microsoft.com/en-us/windows/desktop/api/memoryapi/nf-memoryapi-mapviewoffile
 [4]: https://docs.microsoft.com/en-us/windows/desktop/winprog64/rules-for-using-pointers
+[5]: https://docs.microsoft.com/en-us/windows/desktop/debug/pe-format#the-debug-section
