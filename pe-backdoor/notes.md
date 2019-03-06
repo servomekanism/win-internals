@@ -100,7 +100,8 @@ of interest to us here:
 #### Recap
 We have the `MS-DOS` header, the `PE` header that is a structure and contains the 
 `Signature` and two structures: `IMAGE_FILE_HEADER` and
-the`IMAGE_OPTIONAL_HEADER`.
+the`IMAGE_OPTIONAL_HEADER`. The `Signature`, the `IMAGE_FILE_HEADER` and the
+`IMAGE_OPTIONAL_HEADER` are the `IMAGE_FILE_HEADER` structure.
 
 Following these two headers and before the actual data within the sections,
 there is the `Section Table`.
