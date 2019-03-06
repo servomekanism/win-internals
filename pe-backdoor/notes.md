@@ -23,6 +23,10 @@ to the `image base`:
 
 `pNtHeader = pImageBase + pDosHeader->e_lfanew`
 
+To get the pointer to the `ImageBase` we query the
+`pNtHeader->OptionalHeader.ImageBase`. However this base will most likely change
+if the `rebase` is configured, see below.
+
 To get a pointer to the `image base` when loaded in memory, we need to map the
 file with the [CreateFileMapping][2] and [MapViewOfFile][3]. For 64-bit we need
 to cast this carefully according to [MSDN][4].
