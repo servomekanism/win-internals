@@ -1,6 +1,6 @@
 ### PE anatomy
-The most descriptive picture was [this one][0]. Don't get lost in the details,
-follow this post.
+The most descriptive picture was [this one][0] and [this one\!][7]. Don't get 
+lost in the details, follow this post.
 
 0. `RVA`: Relative Virtual Address is an offset to some item/table within the
 file. When the windows loader maps the file into memory, it maps it to some base
@@ -190,3 +190,4 @@ address space.
 [5]: https://docs.microsoft.com/en-us/windows/desktop/debug/pe-format#the-debug-section
 [6]: https://docs.microsoft.com/en-us/windows/desktop/api/winnt/ns-winnt-_image_section_header
 [7]: https://docs.microsoft.com/en-us/previous-versions/ms809762(v=msdn.10)#the-section-table
+[7]: http://web.cse.ohio-state.edu/~reeves.92/CSE2421au12/HelloWorldGoal.pdf
